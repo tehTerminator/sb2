@@ -2,10 +2,11 @@ const app = angular.module('simpleBillingApp', ['ngRoute']);
 
 app.directive('appRoot', function(){
     return {
-        'restrict' : 'E',
-        'template' : '{{title}}'
+        'restrict'      : 'E',
+        'templateUrl'   : 'app/app.component.html',
+        'controller'    : 'MainController'
     }
 })
-.controller('MainController', function($scope){
-    $scope.title = "Simple Billing App"
+.controller('MainController', function($scope, UserService){
+    $scope.title = "Simple Billing App";
 })
