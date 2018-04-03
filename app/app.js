@@ -7,6 +7,22 @@ app.directive('appRoot', function(){
         'controller'    : 'MainController'
     }
 })
+
 .controller('MainController', function($scope, UserService){
     $scope.title = "Simple Billing App";
 })
+
+.config(function($routeProvider, $locationProvider){
+    $routeProvider
+
+    .when('/home', {
+        templateUrl : 'app/pages/home/home.html',
+        controller  : 'HomeController'
+    })
+    .otherwise({
+        redirectTo: 'home'
+    });
+
+    $locationProvider.html5Mode(true);
+});
+
