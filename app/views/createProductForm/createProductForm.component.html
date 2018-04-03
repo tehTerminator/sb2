@@ -1,0 +1,36 @@
+<div class="ui form segment">
+    <div class="ui fields">
+        <label for="productName">Product Name</label>
+        <div class="ui input">
+            <input type="text" name="productName" ng-model="product.name">
+        </div>
+    </div>
+    <div class="ui fields">
+        <label for="productDecription">Product Description</label>
+        <div class="ui input">
+            <input type="text" name="productDescription" ng-model="product.description">
+        </div>
+    </div>
+    <div class="ui fields">
+        <label for="companyName">Company Name</label>
+        <select 
+            name="companyName" 
+            ng-model="product.companyName" 
+            class="ui fluid search selection dropdown">
+        </select>
+    </div>
+    <div class="ui fields">
+        <label for="category">Category</label>
+        <select name="category" ng-model="product.category" class="ui search selection dropdown"></select>
+    </div>
+    <div class="ui fields">
+        <label for="unit">Unit</label>
+        <select 
+            name="unit" 
+            ng-model="product.unit" 
+            class="ui fluid search selection dropdown">
+        </select>
+    </div>
+
+    <div class="ui fluid button">Submit</div>
+</div>

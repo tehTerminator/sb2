@@ -19,6 +19,10 @@ app.directive('appRoot', function(){
         templateUrl : 'app/pages/home/home.html',
         controller  : 'HomeController'
     })
+    .when('/products', {
+        templateUrl : 'app/pages/products/products.html',
+        controller  : 'ProductPageController'
+    })
     .otherwise({
         redirectTo: 'home'
     });
