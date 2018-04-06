@@ -1,30 +1,41 @@
-app.factory('ProductService', function(MySqlService, CategoryService){
+app.factory('ProductService', function(MySqlService, CategoryService, CompanyService){
     const productService = {};
-    productService['allProducts'] = [];
+    productService['data'] = [];
 
     productService.retrieveProducts = function(){
+
         MySqlService.select('products')
         .then(function(response){
-            productService.allProducts = response;
+            if( response.status === 200 ){
+                angular.forEach(response.data.data, function(product){
+                    product.categoryName = CategoryService.getCategoryById(product.categoryId);
+                    product.companyName = CompanyService.getCompanyById(product.companyId);
+                    productService.data.push(product);
+                });
+            } else {
+                productService.data = [];
+            }
         });
     }
 
+
+
     productService.getProductList = function(){
-        return productService.allProducts;
+        return productService.data;
     }
 
     productService.getProductById = function(id){
-        return productService.allProducts.find( product => product.id === id );
+        return productService.data.find( product => product.id === id );
     }
 
     productService.getProductsByName = function(name){
-        return productService.allProducts.filter( 
+        return productService.data.filter( 
             product => product.name.toLowerCase().indexOf(name.toLowerCase()) >= 0 
         );
     }
 
     productService.getProductsByCategoryId = function(categoryId){
-        return productService.allProducts.filter( product => product.categoryId === categoryId );
+        return productService.data.filter( product => product.categoryId === categoryId );
     }
 
     productService.getProductsByCompanyId = function(companyId){
