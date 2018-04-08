@@ -7,7 +7,7 @@
 
     
     define('LOCALHOST', 'localhost');
-    define('DBNAME', 'q3');
+    define('DBNAME', 'sb2');
     define('USER', 'root');
     define('PASSWORD', 'Toor*7391');
 
@@ -31,20 +31,7 @@
 
     $output = array();
     process_request($connection, $request, $output);
-    $verbose = isset($response['verbose']) ? $request['verbose'] : NULL;
-    print_response($output, $verbose);
-
-    function print_response($output, $verbose=false) {
-        if ($verbose && count($output) == 1) {
-            die( json_encode($output[0]['data']) );
-        } else if ($verbose && count($output) > 1 ){
-            die( json_encode($output) );
-        } else if ($verbose == false && count($output) == 1) {
-            die( json_encode($output[0]) );
-        } else {
-            die( json_encode($output) );
-        }
-    }
+    die( json_encode($output));
 
     function process_request($connection, $request, &$output=NULL) {
         $output = $output == NULL ? array() : $output;

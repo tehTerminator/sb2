@@ -8,8 +8,22 @@ app.directive('appRoot', function(){
     }
 })
 
-.controller('MainController', function($scope, UserService){
+.controller('MainController', function($scope, $location, UserService){
     $scope.title = "Simple Billing App";
+
+    $scope.authUser = function(){
+        if( UserService.isLoggedIn() ){
+            $location.url('/home');
+        } else {
+            $location.url('/login');
+        }
+    }
+
+    $scope.$on('$routeChangeStart', function(event,current,previous) {
+        if( !UserService.isLoggedIn() ){
+            $location.url('/login');
+        }
+    });
 })
 
 .config(function($routeProvider, $locationProvider){
@@ -22,6 +36,10 @@ app.directive('appRoot', function(){
     .when('/store', {
         templateUrl : 'app/pages/store/store.html',
         controller  : 'StoreController'
+    })
+    .when('/login', {
+        templateUrl : 'app/pages/login/login.html',
+        controller  : 'LoginPageController'
     })
     .otherwise({
         redirectTo: 'home'

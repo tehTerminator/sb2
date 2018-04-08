@@ -1,0 +1,18 @@
+<div class="ui form segment">
+    <h3 class="ui header">{{ formHeading }}</h3>
+        <div class="field" ng-show="showIdField">
+            <label for="">Company Id</label>
+            <input type="number" ng-model="company.id" ng-readonly="true">
+        </div>
+        <div class="field">
+            <label for="name">Name</label>
+            <input type="text">
+        </div>
+        <div class="field">
+            <label for="description">Description</label>
+            <textarea ng-model="company.description"></textarea>
+        </div>
+
+        <button class="ui green button">Save</button>
+    </div>
+</div>

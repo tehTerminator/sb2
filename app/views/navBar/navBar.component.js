@@ -13,7 +13,13 @@ app
 
     $scope.init = function(){
         jQuery(".ui.dropdown").dropdown();
-    }
+
+    };
+    
+    // $scope.$watch(UserService.getUserName(), function(newValue, OldValue){
+    //     console.log("New Value : " + newValue);
+    //     console.log("Old Value : " + OldValue);
+    // });
 
     $scope.init();
 });

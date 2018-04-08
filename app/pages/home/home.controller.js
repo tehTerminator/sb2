@@ -1,3 +1,3 @@
-app.controller('HomeController', function($scope){
-  $scope.title = "Home Page";
+app.controller('HomeController', function($scope, UserService){
+  $scope.title = "Hello - " + UserService.getUserName();
 });

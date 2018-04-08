@@ -3,7 +3,6 @@ app.factory('ProductService', function(MySqlService, CategoryService, CompanySer
     productService['data'] = [];
 
     productService.retrieveProducts = function(){
-
         MySqlService.select('products')
         .then(function(response){
             if( response.status === 200 ){
@@ -17,8 +16,6 @@ app.factory('ProductService', function(MySqlService, CategoryService, CompanySer
             }
         });
     }
-
-
 
     productService.getProductList = function(){
         return productService.data;
@@ -61,55 +58,4 @@ app.factory('ProductService', function(MySqlService, CategoryService, CompanySer
     }
 
     return productService;
-})
-
-.factory('CategoryService', function(MySqlService){
-    const categoryService = {};
-    categoryService['data'] = [];
-
-    categoryService.retrieveCategories = function(){
-        MySqlService.select('categories')
-        .then(function(response){
-            categoryService.data = response;
-        })
-    }
-
-    categoryService.getCategories = function(){
-        return categoryService.data;
-    }
-    
-    categoryService.getCategoryById = function(id){
-        return categoryService.data.find( category => category.id === id );
-    }
-
-    categoryService.getCategoriesByName = function(name){
-        return categoryService.data.filter( 
-            category => category.name.toLowerCase().indexOf(name.toLowerCase()) >= 0 
-        );
-    }
-})
-
-.factory('CompanyService', function(MySqlService){
-    const companyService = {};
-    companyService['data'] = [];
-
-    companySerice.retrieveCompanies = function(){
-        MySqlService.select('companies')
-        .then(function(response){
-            companyService.data = response;
-        })
-    }
-
-    companyService.getCompanyById = function(id){
-        return companyService.data.find( company => company.id === id );
-    }
-
-    companyService.getCompaniesByName = function(name){
-        return companyService.data.filter( 
-            company => company.name.toLowerCase().indexOf(name.toLowerCase()) >= 0
-        );
-    }
-    
-})
-
- 
+});

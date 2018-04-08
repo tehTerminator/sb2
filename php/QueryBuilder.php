@@ -17,8 +17,9 @@
             $columns = NULL;
             $this->autoCommit = true;
 
-            if (is_null($params)) {
+            if( ! is_null($params) ){
                 $columns = isset($params['columns']) ? $params['columns'] : NULL;
+                $columns = $this->encapsulate($columns, '`');
             }
 
             if (is_null($columns)) {
@@ -36,8 +37,8 @@
                 $this->query .= $this->join($param['join']['type'], $param['join']['table'], $params['join']['condition']);
             }
 
-            if (isset($params['where'])) {
-                $this->query .= $this->where($params['where']);
+            if (isset($params['andWhere']) || isset($params['orWhere'])) {
+                $this->query .= $this->where($params);
             }
 
             if (isset($param['groupBy'])) {
@@ -99,7 +100,7 @@
                 } else if ($this->autoCommit == false) {
                     $this->connection->rollBack();
                 }
-                $this->output['data'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $this->output['rows'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $this->output['rowCount'] = $stmt->rowCount();
                 $this->output['query'] = $this->query;
             } catch (PDOException $e) {

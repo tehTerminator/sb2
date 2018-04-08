@@ -5,8 +5,7 @@ app.factory('MySqlService', function($http){
         const serverLink = "php/sql.php";
         const request = {
             'queryType' : queryType,
-            'tableName' : tableName,
-            'verbose'   : false
+            'tableName' : tableName
         };
 
         if( additionalParams !== undefined || additionalParams !== null ){
@@ -33,4 +32,8 @@ app.factory('MySqlService', function($http){
     }
 
     return mySql;
-});
+})
+
+.factory('FileService', function(){
+    
+})

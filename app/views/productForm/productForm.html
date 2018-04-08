@@ -1,17 +1,18 @@
 <div class="ui form segment">
-    <div class="ui fields">
+        <h3 class="ui header">{{ formHeading }}</h3>
+    <div class="ui field" ng-show="showIdField">
+        <label for="productId">Product Id</label>
+        <input type="number" ng-model="product.id" ng-readonly="true">
+    </div>
+    <div class="ui field">
         <label for="productName">Product Name</label>
-        <div class="ui input">
-            <input type="text" name="productName" ng-model="product.name">
-        </div>
+        <input type="text" name="productName" ng-model="product.name">
     </div>
-    <div class="ui fields">
+    <div class="ui field">
         <label for="productDecription">Product Description</label>
-        <div class="ui input">
-            <input type="text" name="productDescription" ng-model="product.description">
-        </div>
+        <input type="text" name="productDescription" ng-model="product.description">
     </div>
-    <div class="ui fields">
+    <div class="ui field">
         <label for="companyName">Company Name</label>
         <select 
             name="companyName" 
@@ -19,11 +20,11 @@
             class="ui fluid search selection dropdown">
         </select>
     </div>
-    <div class="ui fields">
+    <div class="ui field">
         <label for="category">Category</label>
         <select name="category" ng-model="product.category" class="ui search selection dropdown"></select>
     </div>
-    <div class="ui fields">
+    <div class="ui field">
         <label for="unit">Unit</label>
         <select 
             name="unit" 
@@ -32,5 +33,5 @@
         </select>
     </div>
 
-    <div class="ui fluid button">Submit</div>
+    <div class="ui fluid button">Save</div>
 </div>

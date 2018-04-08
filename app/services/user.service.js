@@ -1,6 +1,6 @@
 app.factory('UserService', function(MySqlService){
     const userService = {
-        allUser : [],
+        allUsers : [],
         currentUser : {}
     };
     
@@ -12,39 +12,40 @@ app.factory('UserService', function(MySqlService){
         });
     }
 
-    userService.tryLogIn = function(username, password, success, failure){
-        MySqlService.select('users', {
-            'columns' : ['id', 'name', 'authLevel'],
-            'andWhere' : {'name': username, 'password': password}
-        }).then(function(response){
-            if( response.length == 1 ){
-                userService.currentUser = response[0];
-                success();
-            } else {
-                failure();
-            }
-        })
+    userService.tryToLogIn = function(username, password){
+        return MySqlService.select('users', {
+            'columns' : ['id', 'fullName', 'authLevel'],
+            'andWhere' : {'username': username, 'password': password}
+        });
+    }
+
+    userService.setUser = function(user){
+        userService.currentUser = user;
     }
 
     userService.isLoggedIn = function(){
-        return userService.currentUser == {};
+        return ( userService.currentUser.authLevel !== undefined && userService.currentUser.authLevel >= 0)
     }
 
     userService.getUserName = function(){
-        if( userService.currentUser == {} || userService.currentUser.name == undefined ){
+        if( userService.currentUser == {} || userService.currentUser.fullName == undefined ){
             return 'Anonymous';
         } else {
-            return userService.currentUser.name;
+            return userService.currentUser.fullName;
         }
     }
 
     userService.getAuthLevel = function(){
-        if( userService.currentUser == {} || userService.currentUser.getAuthLevel == undefined ){
+        if( userService.currentUser.getAuthLevel === undefined ){
             return -1;
         } else {
             return userService.currentUser.authLevel;
         }
     }
 
+    userService.getUserById = function(userId) {
+        return userService.allUsers.find( user => user.id === userId );
+    }
+    
     return userService;
 });

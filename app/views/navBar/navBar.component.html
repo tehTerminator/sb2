@@ -23,7 +23,8 @@
         Hello {{ user.name }}
         <i class="dropdown icon"></i>
         <div class="menu">
-            <a href="#" class="item">Login</a><a href="#" class="item">Logout</a>
+            <a href="login" ng-hide="UserService.isLoggedIn()" class="item">Login</a>
+            <a ng-click="logout()" ng-show="UserService.isLoggedIn()" class="item">Logout</a>
         </div>
     </div>
 </div>
