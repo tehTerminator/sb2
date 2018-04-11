@@ -102,6 +102,7 @@
                 }
                 $this->output['rows'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $this->output['rowCount'] = $stmt->rowCount();
+                $this->output['lastInsertId'] = $this->connection->lastInsertId();
                 $this->output['query'] = $this->query;
             } catch (PDOException $e) {
                 $this->connection->rollBack();

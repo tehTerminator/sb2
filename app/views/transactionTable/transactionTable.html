@@ -1,0 +1,32 @@
+<table class="ui mini compact table">
+    <thead>
+        <tr>
+            <th rowspan="2">Product</th>
+            <th rowspan="2">Quantity</th>
+            <th rowspan="2">Rate</th>
+            <th colspan="3">GST</th>
+            <th rowspan="2">Discount</th>
+            <th rowspan="2">Amount</th>
+            <th rowspan="2" ng-if="showButtons">Action</th>
+        </tr>
+        <tr>
+            <th>SGST</th>
+            <th>CGST</th>
+            <th>IGST</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ transaction.productName }}</td>
+            <td>{{ transaction.quantity }}</td>
+            <td>{{ transaction.rate }}</td>
+            <td>{{ transaction.sgstRate * transaction.quantity * transaction.rate * 0.01 }}</td>
+            <td>{{ transaction.cgstRate * transaction.quantity * transaction.rate * 0.01 }}</td>
+            <td>{{ transaction.igstRate * transaction.quantity * transaction.rate * 0.01 }}</td>
+            <td>{{ (1 - transaction.quantity * transaction.rate) * transaction.discount * 0.01 }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>

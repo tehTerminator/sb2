@@ -23,7 +23,6 @@ app
             company => company.name.toLowerCase().indexOf(name.toLowerCase()) >= 0
         );
     }
-
     return companyService;
     
 });

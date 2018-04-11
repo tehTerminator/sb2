@@ -1,0 +1,22 @@
+<table class="ui mini compact table">
+    <thead>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Mobile</th>
+        <th>GST/ID</th>
+        <th>Action</th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="contact in contacts|filter:searchText|pagination:pageCount:pageIndex">
+            <td>{{ contact.name }}</td>
+            <td>{{ contact.address }}</td>
+            <td>{{ contact.mobile }}</td>
+            <td>{{ contact.gstId }}</td>
+            <td>
+                <button ng-click="selectContact()" class="ui icon button">
+                    <i class="icon checkmark"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
