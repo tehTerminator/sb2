@@ -1,4 +1,5 @@
 <div class="ui form segment">
+    <button class="ui top right attached label" ng-click="getData()">Refresh</button>
         <h3 class="ui header">{{ formHeading }}</h3>
     <div class="ui field" ng-show="showIdField">
         <label for="productId">Product Id</label>
@@ -16,20 +17,32 @@
         <label for="companyName">Company Name</label>
         <select 
             name="companyName" 
-            ng-model="product.companyName" 
+            ng-model="product.company" 
+            ng-options="company as company.name for company in companies track by company.id"
             class="ui fluid search selection dropdown">
         </select>
     </div>
     <div class="ui field">
         <label for="category">Category</label>
-        <select name="category" ng-model="product.category" class="ui search selection dropdown"></select>
+        <select
+            ng-options="category as category.name for category in categories track by category.id" 
+            name="category" 
+            ng-model="product.category" 
+            class="ui search selection dropdown">
+        </select>
     </div>
     <div class="ui field">
         <label for="unit">Unit</label>
         <select 
             name="unit" 
             ng-model="product.unit" 
+            ng-init="initDropdown()"
             class="ui fluid search selection dropdown">
+            <option value="ml">ml</option>
+            <option value="piece">Piece</option>
+            <option value="kg">kg</option>
+            <option value="gram">gram</option>
+            <option value="liter">Liter</option>
         </select>
     </div>
 

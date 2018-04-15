@@ -13,39 +13,59 @@ app.directive('productForm', function(){
 .controller('ProductFormController', function($scope, MySqlService, CategoryService, CompanyService){
     $scope.product = {
         'name' : '',
-        'desciption' : '',
+        'description' : '',
         'categoryId' : 0,
         'companyId' : '',
         'unit' : ''
     };
 
-    $scope.categories = CategoryService.getCategories();
-    $scope.companies = CompanyService.getCompanies();
-
     $scope.save = function(){
         const productData = {
             'name' : $scope.product.name,
-            'descrition' : $scope.product.descrition,
-            'categoryId' : $scope.product.categoryId,
-            'companyId' : $scope.product.companyId,
+            'description' : $scope.product.description,
+            'categoryId' : $scope.product.category.id,
+            'companyId' : $scope.product.company.id,
             'unit' : $scope.product.unit
         };
 
-        if( showIdField ){
-            MySqlService.update('product', {
+        if( typeof showIdField !== 'undefined' && showIdField == true ){
+            MySqlService.update('products', {
                 userData : productData,
                 andWhere : { 'id' : $scope.product.id }
             })
             .then(function(response){
-                console.log(response);
+                $scope.product = {
+                    'name' : '',
+                    'description' : '',
+                    'categoryId' : 0,
+                    'companyId' : '',
+                    'unit' : ''
+                };
             })
         } else {
-            MySqlService.insert('product', {
+            MySqlService.insert('products', {
                 userData : productData
             })
             .then(function(response){
-                console.log(response);
+                $scope.product = {
+                    'name' : '',
+                    'description' : '',
+                    'categoryId' : 0,
+                    'companyId' : '',
+                    'unit' : ''
+                };
             });
         }
     };
+    
+    $scope.getData = function() {
+        CategoryService.retrieveCategories();
+        CompanyService.retrieveCompanies();
+        $scope.categories = CategoryService.getCategories();
+        $scope.companies = CompanyService.getCompanies(); 
+    };
+
+    $scope.initDropdown = function() {
+        jQuery(".ui.dropdown").dropdown();
+    }
 });

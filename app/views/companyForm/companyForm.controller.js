@@ -29,7 +29,11 @@ app
                 }
             })
             .then(function(response) {
-                console.log( response );
+                $scope.company = {
+                    'id' : 0,
+                    'name' : '',
+                    'description' : '',
+                };
             });
         } else if ($scope.showIdField === false) {
             MySqlService.insert('companies', {
@@ -39,7 +43,11 @@ app
                 }
             })
             .then(function(response) {
-                console.log(response);
+                $scope.company = {
+                    'id' : 0,
+                    'name' : '',
+                    'description' : '',
+                };
             })
         }
     };

@@ -6,7 +6,7 @@ app
     companyService.retrieveCompanies = function(){
         MySqlService.select('companies')
         .then(function(response){
-            companyService.data = response;
+            companyService.data = response.data[0]['rows'];
         })
     }
 

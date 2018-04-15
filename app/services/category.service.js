@@ -6,7 +6,7 @@ app
     categoryService.retrieveCategories = function(){
         MySqlService.select('categories')
         .then(function(response){
-            categoryService.data = response;
+            categoryService.data = response.data[0]['rows'];
         })
     }
 
