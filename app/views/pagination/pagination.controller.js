@@ -88,6 +88,10 @@ app
             $scope.currentPage = $scope.lastActivePage;
         }
     }
+
+    $scope.initDropdown = function(){
+        jQuery(".ui.dropdown").dropdown();
+    }
 })
 
 .filter('pagination', function() {

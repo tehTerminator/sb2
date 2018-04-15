@@ -38,10 +38,14 @@
         if (isset($request['queryType'])) {
             $tableName = $request['tableName'];
             $qb = new QueryBuilder($connection, $tableName);
+            
             $queryType = $request['queryType'];
             $request['param'] = isset($request['param']) ? $request['param'] : NULL;
             $qb->{$queryType}($request['param']);
-            $qb->execute();
+
+            $userData = isset($request['param']['userData']) ? $request['param']['userData'] : NULL;
+            $qb->execute($userData);
+
             array_push($output, $qb->get_output());
         } else {
             foreach($request as $value) {

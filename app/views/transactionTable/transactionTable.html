@@ -1,13 +1,16 @@
-<table class="ui mini compact table">
+<table class="ui mini celled compact center aligned table">
     <thead>
         <tr>
             <th rowspan="2">Product</th>
             <th rowspan="2">Quantity</th>
             <th rowspan="2">Rate</th>
             <th colspan="3">GST</th>
-            <th rowspan="2">Discount</th>
             <th rowspan="2">Amount</th>
-            <th rowspan="2" ng-if="showButtons">Action</th>
+            <th rowspan="2" ng-if="showButtons">
+                <button ng-click="retrieveFromServer()" class="ui icon button">
+                    <i class="refresh icon"></i>
+                </button>
+            </th>
         </tr>
         <tr>
             <th>SGST</th>
@@ -16,17 +19,26 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
+        <tr ng-repeat="transaction in transactions">
             <td>{{ transaction.productName }}</td>
             <td>{{ transaction.quantity }}</td>
             <td>{{ transaction.rate }}</td>
-            <td>{{ transaction.sgstRate * transaction.quantity * transaction.rate * 0.01 }}</td>
-            <td>{{ transaction.cgstRate * transaction.quantity * transaction.rate * 0.01 }}</td>
-            <td>{{ transaction.igstRate * transaction.quantity * transaction.rate * 0.01 }}</td>
-            <td>{{ (1 - transaction.quantity * transaction.rate) * transaction.discount * 0.01 }}</td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ transaction.sgstAmount }}</td>
+            <td>{{ transaction.cgstAmount }}</td>
+            <td>{{ transaction.igstAmount }}</td>
+            <td>{{ transaction.amountWithTax }}</td>
+            <td ng-if="showButtons">
+                <button ng-click="deleteTransaction(transaction)" class="ui icon red button">
+                    <i class="delete icon"></i>
+                </button>
+            </td>
         </tr>
     </tbody>
+    <tfoot>
+        <td colspan="2">Amount Without Tax</td>
+        <td>{{ total.amountWithoutTax }}</td>
+        <td colspan="2">Total Tax</td>
+        <td>{{ total.tax }}</td>
+        <td>{{ total.amountWithTax }}</td>
+    </tfoot>
 </table>

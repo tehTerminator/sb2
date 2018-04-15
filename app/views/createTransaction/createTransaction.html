@@ -1,0 +1,39 @@
+<div class="ui top right attached label">
+    <div class="ui checkbox" ng-init="initCheckbox()">
+        <input type="checkbox" name="" id="">
+        <label for="">Rates Including Tax</label>
+    </div>
+</div>
+<div class="ui basic form segment">
+    <div class="ui four fields">
+        <div class="eight wide field">
+            <label for="product">Select Product</label>
+            <div class="ui input">
+                <select class="ui fluid search selection dropdown" ng-init="initDropdown()">
+                    <option value="1">Product 1</option>
+                    <option value="2">Product 2</option>
+                    <option value="3">Product 3</option>
+                </select>
+            </div>
+        </div>
+        <div class="field">
+            <label for="quantity">Quantity</label>
+            <div class="input"><input type="number" name="quantity" id=""></div>
+        </div>
+        <div class="field">
+            <label for="rate">
+                Rate
+            </label>
+            <div class="input"><input type="number" name="rate" id=""></div>
+        </div>
+        <div class="field">
+            <label for="">Add New Transaction</label>
+            <button class="ui green fluid button">
+                Add
+            </button>
+        </div>
+    </div>
+
+
+    <transaction-table></transaction-table>
+</div>

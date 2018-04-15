@@ -87,11 +87,14 @@
             try{
                 if( $this->isMultiDimensional($userData) ){
                     foreach($userData as $key=>$value){
-                        $stmt->execute($value);
+                        $userArray = $this->prefix($value, ":");
+                        $stmt->execute($userArray);
                         $rowCounter++;
                     }
                 } else {
-                    $stmt->execute($userData);
+                    $userArray = $this->prefix($userData, ":");
+                    $output['userArray'] = $userArray;
+                    $stmt->execute($userArray);
                     $rowCounter++;
                 }
 
@@ -104,8 +107,9 @@
                 $this->output['rowCount'] = $stmt->rowCount();
                 $this->output['lastInsertId'] = $this->connection->lastInsertId();
                 $this->output['query'] = $this->query;
-            } catch (PDOException $e) {
+            } catch (Exception $e) {
                 $this->connection->rollBack();
+                $output['error'] = $e->getMessage();
             }
         }
 
@@ -114,10 +118,16 @@
         }
 
         private function prefix($someArray, $pre){
-            $count = count($someArray);
             $output = array();
-            for ($i=0; $i<$count; $i++){
-                array_push($output, "{$pre}{$someArray[$i]}");
+            if( $this->isAssoc($someArray) ) {
+                foreach( $someArray as $key=>$value ) {
+                    $output["{$pre}{$key}"] = $value;
+                }
+            } else {
+                $count = count($someArray);
+                for ($i=0; $i<$count; $i++){
+                    array_push($output, "{$pre}{$someArray[$i]}");
+                }
             }
             return $output;
         }

@@ -1,0 +1,19 @@
+<step>
+    <div class="ui basic segment" ng-show="isActive(1)">
+        <pagination>
+            <contacts-table></contacts-table>
+        </pagination>
+        <button class="ui green button" ng-click="gain()">
+            Next
+        </button>
+    </div>
+    <div class="ui basic segment" ng-show="isActive(2)">
+        <create-transaction></create-transaction>
+    </div>
+    <div class="ui basic segment" ng-show="isActive(3)">
+        <h1>This is Step 3</h1>
+        <button ng-click="gain()">
+            Next
+        </button>
+    </div>
+</step> 

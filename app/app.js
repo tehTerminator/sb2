@@ -37,6 +37,9 @@ app.directive('appRoot', function(){
         templateUrl : 'app/pages/store/store.html',
         controller  : 'StoreController'
     })
+    .when('/invoice', {
+        templateUrl : 'app/pages/invoice/invoice.html'
+    })
     .when('/login', {
         templateUrl : 'app/pages/login/login.html',
         controller  : 'LoginPageController'
