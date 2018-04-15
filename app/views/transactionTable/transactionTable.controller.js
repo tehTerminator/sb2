@@ -48,33 +48,19 @@ app.directive('transactionTable', function(){
 
     $scope.pushTransaction = function(transaction, taxIncluded) {
         transaction.productName = ProductService.getProductById( transaction.productId );
-        let amountWithTax = 0;
+        let amountWithTax = transaction.quantity * transaction.rate;
         let amountWithoutTax = 0;
 
-        taxIncluded = typeof(taxIncluded) === 'undefined' ? false : true;
+        transaction.sgstAmount = ( amountWithTax * 100 ) / (100 + transaction.sgstRate);
+        transaction.cgstAmount = ( amountWithTax * 100 ) / (100 + transaction.cgstRate);
+        transaction.igstAmount = ( amountWithTax * 100 ) / (100 + transaction.igstRate);
 
-        if( taxIncluded ){
-            amountWithTax = transaction.quantity * transaction.rate;
-            transaction.sgstAmount = ( amountWithTax * 100 ) / (100 + transaction.sgstRate);
-            transaction.cgstAmount = ( amountWithTax * 100 ) / (100 + transaction.cgstRate);
-            transaction.igstAmount = ( amountWithTax * 100 ) / (100 + transaction.igstRate);
-        } else {
-            amountWithoutTax = transaction.quantity * transaction.rate;
-            transaction.sgstAmount = amountWithoutTax * transaction.sgstRate * 0.01;
-            transaction.cgstAmount = amountWithoutTax * transaction.cgstRate * 0.01;
-            transaction.igstAmount = amountWithoutTax * transaction.igstRate * 0.01;    
-        }
         transcation.totalTax = transaction.sgstAmount + transaction.cgstAmount + transaction.igstAmount;
-
-        if( amountWithoutTax === 0 ){
-            amountWithoutTax = amountWithTax - transaction.totalTax;
-        } else if( amountWithTax === 0 ){
-            amountWithTax = amountWithoutTax + transaction.totalTax;
-        }
+        amountWithoutTax = amountWithTax - transaction.totalTax;
 
         $scope.total.tax += transaction.totalTax;
         $scope.total.amountWithoutTax += amountWithoutTax;
-        $scope.totatl.amountWithTax += transaction.amountWithTax;
+        $scope.total.amountWithTax += transaction.amountWithTax;
 
         $scope.transactions.push(trasaction);
     };
@@ -98,6 +84,15 @@ app.directive('transactionTable', function(){
     };
 
     $scope.$on('PushTransaction', function(e, arg){
-        $scope.pushTransaction(arg.data, arg.taxIncluded);
+        $scope.pushTransaction(arg.data);
     });
+
+    $scope.reset = function(){
+        $scope.transactions = [];
+        $scope.total = {
+            tax : 0,
+            amountWithoutTax : 0,
+            amountWithTax : 0
+        };
+    }
 });

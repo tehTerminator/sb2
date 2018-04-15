@@ -3,10 +3,10 @@
         <div class="eight wide field">
             <label for="product">Select Product</label>
             <div class="ui input">
-                <select class="ui fluid search selection dropdown" ng-init="initDropdown()">
-                    <option value="1">Product 1</option>
-                    <option value="2">Product 2</option>
-                    <option value="3">Product 3</option>
+                <select
+                    ng-options="product as product.name for product in products track by product.id" 
+                    class="ui fluid search selection dropdown" 
+                    ng-init="initDropdown()">
                 </select>
             </div>
         </div>
@@ -27,7 +27,5 @@
             </button>
         </div>
     </div>
-
-
     <transaction-table></transaction-table>
 </div>
