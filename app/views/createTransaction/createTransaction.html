@@ -1,31 +1,42 @@
-<div class="ui basic form segment">
-    <div class="ui four fields">
-        <div class="eight wide field">
-            <label for="product">Select Product</label>
-            <div class="ui input">
-                <select
-                    ng-options="product as product.name for product in products track by product.id" 
-                    class="ui fluid search selection dropdown" 
-                    ng-init="initDropdown()">
-                </select>
+<div class="ui grid">
+    <div class="one column row">
+        <div class="column">
+            <div class="ui segment">
+                We Will Show Customer Name Here
             </div>
         </div>
-        <div class="field">
-            <label for="quantity">Quantity</label>
-            <div class="input"><input type="number" name="quantity" id=""></div>
+    </div>
+    <div class="ui two column row">
+        <div class="four wide column">
+            <div class="ui form segment">
+                <div class="field">
+                    <label for="product">Select Product</label>
+                    <div class="ui search">
+                        <input type="text" class="prompt" placeholder="Enter Product Name..." id="selectProductField">
+                        <div class="result"></div>
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label for="quantity">Quantity</label>
+                        <div class="input">
+                            <input type="number" name="quantity" id="">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="rate">
+                            Rate
+                        </label>
+                        <div class="input"><input type="number" name="rate" id=""></div>
+                    </div>
+                </div>
+                <button class="ui green fluid button">
+                    Add
+                </button>
+            </div>
         </div>
-        <div class="field">
-            <label for="rate">
-                Rate
-            </label>
-            <div class="input"><input type="number" name="rate" id=""></div>
-        </div>
-        <div class="field">
-            <label for="">Add New Transaction</label>
-            <button class="ui green fluid button">
-                Add
-            </button>
+        <div class="twelve wide column">
+            <transaction-table></transaction-table>
         </div>
     </div>
-    <transaction-table></transaction-table>
 </div>

@@ -1,0 +1,36 @@
+<div class="ui form segment">
+    <div class="field" ng-hide="true">
+        <label for="id">Id</label>
+        <div class="ui input">
+            <input type="number" min="0" step="1" value="0" name="contact.id" ng-model="contact.id" readonly>
+        </div>
+    </div>
+    <div class="field">
+        <label for="name">Name</label>
+        <div class="ui input"><input type="text" name="contact.name" ng-model="contact.name"></div>
+    </div>
+    <div class="field">
+        <label for="address">Address</label>
+        <div class="ui input">
+            <textarea name="contact.address" ng-model="contact.address" cols="30" rows="10">
+            </textarea>
+        </div>
+    </div>
+    <div class="field">
+        <label for="telephone">Telephone</label>
+        <div class="ui input">
+            <input type="text" maxlength="12" name="contact.phone" ng-model="contact.phone">
+        </div>
+    </div>
+    <div class="field">
+        <label for="taxId">TAX ID</label>
+        <div class="ui input">
+            <input type="text" name="contact.taxId" ng-model="contact.taxId">
+        </div>
+    </div>
+
+    <button class="ui fluid button" ng-click="save()">
+        Save
+    </button>
+
+</div>

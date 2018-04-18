@@ -1,7 +1,11 @@
 <step>
     <div class="ui basic segment" ng-show="isActive(1)">
         <pagination>
-            <contacts-table></contacts-table>
+            <contacts-table
+                search-text="searchText"
+                page-index="currentPage"
+                page-length="pageLength">
+            </contacts-table>
         </pagination>
         <button class="ui green button" ng-click="gain()">
             Next

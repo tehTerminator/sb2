@@ -23,14 +23,11 @@ app
     });
 
     $scope.requestData = function() {
-        $scope.$broadcast('RefreshData');
-    }
-
-    $scope.addButtonClick = function() {
-        $scope.$emit('AddButtonClick');
+        $scope.$broadcast('Refresh Data');
     }
 
     $scope.initialize = function(totalItems) {
+        console.log("Initialize", totalItems);
         $scope.totalItems = totalItems;
         $scope.totalPages = Math.ceil(totalItems / $scope.pageLength);
         $scope.pageArray = [];
@@ -61,7 +58,7 @@ app
     }
 
     $scope.isLast = function() {
-        return $scope.currentPage == $scope.pageArray.length;
+        return $scope.currentPage == $scope.pageArray.length - 1;
     }
 
     $scope.lastPage = function() {
@@ -74,18 +71,21 @@ app
     }
 
     $scope.setPage = function(i) {
-        $scope.currentPage = i - 1;
+        if( i > 0 && i < $scope.totalPages - 1)
+            $scope.currentPage = i - 1;
+        else
+            $scope.setPage(1);
     }
 
     $scope.resetPage = function() {
         if( $scope.searchText.length > 1) {
-            $scope.currentPage = 1;
+            $scope.firstPage();
         } if( $scope.searchText.length == 1) {
             $scope.lastActivePage = $scope.currentPage;
-            $scope.currentPage = 1;
+            $scope.firstPage();
         } 
         else{
-            $scope.currentPage = $scope.lastActivePage;
+            $scope.setPage($scope.lastActivePage);
         }
     }
 
@@ -96,8 +96,8 @@ app
 
 .filter('pagination', function() {
     return function(data, itemCount, pageIndex) {
-        let startCount = itemCount * pageIndex;
-        let endCount = startCount + itemCount;
-        return data.slice(startCount, endCount);
+        let startIndex = itemCount * pageIndex;
+        let endCount = startIndex + itemCount;
+        return data.slice(startIndex, endCount);
     };
 });

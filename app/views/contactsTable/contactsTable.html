@@ -1,19 +1,20 @@
-<table class="ui mini compact table">
+<table 
+    class="ui bottom attached celled mini compact center aligned table">
     <thead>
-        <th>Name</th>
-        <th>Address</th>
-        <th>Mobile</th>
-        <th>GST/ID</th>
-        <th>Action</th>
+        <th class="four wide">Name</th>
+        <th class="six wide">Address</th>
+        <th class="two wide">Mobile</th>
+        <th class="three wide">GST/ID</th>
+        <th class="one wide">Action</th>
     </thead>
     <tbody>
-        <tr ng-repeat="contact in contacts|filter:searchText|pagination:pageCount:pageIndex">
+        <tr ng-repeat="contact in contacts|filter:searchText|pagination:pageLength:pageIndex">
             <td>{{ contact.name }}</td>
             <td>{{ contact.address }}</td>
-            <td>{{ contact.mobile }}</td>
-            <td>{{ contact.gstId }}</td>
+            <td>{{ contact.phone }}</td>
+            <td>{{ contact.taxId }}</td>
             <td>
-                <button ng-click="selectContact()" class="ui icon button">
+                <button ng-click="select(contact)" class="ui mini green fluid icon button">
                     <i class="icon checkmark"></i>
                 </button>
             </td>
