@@ -42,4 +42,12 @@ app.directive('step', function(){
     $scope.isActive = function(index) {
         return index === $scope.tabIndex;
     };
+
+    $scope.$on('Gain', function(e, arg){
+        $scope.gain();
+    });
+
+    $scope.$on('Fall', function(e, arg){
+        $scope.fall();
+    });
 });

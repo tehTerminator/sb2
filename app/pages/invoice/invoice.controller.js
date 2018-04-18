@@ -11,9 +11,9 @@ app.controller('InvoiceController', function($scope, $routeParams, MySqlService)
     $scope.products = ProductService.getAllProducts();
 
 
-    $scope.$on('ContactSelected', function(e, arg){
+    $scope.$on('Contact Selected', function(e, arg){
         $scope.selected.contact = arg.data;
-        $scope.step++;
+        $scope.$broadcast('Gain Step', {data : arg.data});
     });
 
     $scope.$on('ProductSelected', function(e, arg){});

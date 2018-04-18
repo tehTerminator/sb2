@@ -1,6 +1,6 @@
 <div>
     <div 
-        class="ui top attached compact secondary stackable menu">
+        class="ui fluid stackable menu">
         <a 
             ng-click="requestData()"
             class="icon item">
@@ -23,7 +23,7 @@
         </a>
         <div class="ui dropdown item">
             Page - {{ currentPage + 1 }} / {{ totalPages }}
-            <div class="scrollable menu">
+            <div class="ui scrollable menu">
                 <div 
                     class="item" ng-repeat="i in pageArray" 
                     ng-click="setPage(i)">
@@ -51,7 +51,7 @@
             ng-init="initDropdown()">
             Items Per Page : {{ pageLength }}
             <i class="icon dropdown"></i>
-            <div class="menu">
+            <div class="ui menu">
                 <div 
                     class="item" 
                     ng-repeat="i in [5, 10, 25, 50, 100]" 
@@ -62,7 +62,7 @@
         </div>
     
         <div class="right item">
-            <div class="ui icon input">
+            <div class="ui transparent icon input">
                 <input 
                     type="text" 
                     placeholder="Search.." 
