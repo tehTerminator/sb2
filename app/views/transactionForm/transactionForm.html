@@ -1,0 +1,26 @@
+<div class="ui form segment">
+    <div class="field">
+        <label for="product">Select Product</label>
+        <div class="ui search">
+            <input type="text" class="prompt" placeholder="Enter Product Name..." id="selectProductField">
+            <div class="result"></div>
+        </div>
+    </div>
+    <div class="two fields">
+        <div class="field">
+            <label for="quantity">Quantity</label>
+            <div class="input">
+                <input type="number" name="quantity" ng-model="quantity">
+            </div>
+        </div>
+        <div class="field">
+            <label for="rate">
+                Rate
+            </label>
+            <div class="input"><input type="number" name="rate" ng-model="rate"></div>
+        </div>
+    </div>
+    <button class="ui green fluid button" ng-click="addTransaction()">
+        Add
+    </button>
+</div>

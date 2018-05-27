@@ -1,0 +1,19 @@
+<table 
+    class="ui celled mini compact center aligned table">
+    <thead>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Action</th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="company in companies|filter:searchText|pagination:pageLength:pageIndex">
+            <td>{{ company.title }}</td>
+            <td>{{ company.description }}</td>
+            <td>
+                <button ng-click="select(company)" class="ui mini green fluid icon button">
+                    <i class="icon checkmark"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

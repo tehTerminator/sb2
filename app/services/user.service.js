@@ -6,15 +6,15 @@ app.factory('UserService', function(MySqlService){
     
     userService.getAllUsers = function(){
         MySqlService.select('users', {
-            'columns' : ['id', 'name']
-        }).then(function(response){
-            userService.allUsers = response;
+            'columns' : ['id', 'title']
+        }).then(function (response) {
+            userService.allUsers = response.data[0]['rows'];
         });
     }
 
     userService.tryToLogIn = function(username, password){
         return MySqlService.select('users', {
-            'columns' : ['id', 'fullName', 'authLevel'],
+            'columns' : ['id', 'title', 'authLevel'],
             'andWhere' : {'username': username, 'password': password}
         });
     }
@@ -27,11 +27,11 @@ app.factory('UserService', function(MySqlService){
         return ( userService.currentUser.authLevel !== undefined && userService.currentUser.authLevel >= 0)
     }
 
-    userService.getUserName = function(){
-        if( userService.currentUser == {} || userService.currentUser.fullName == undefined ){
+    userService.getUserName = function () {
+        if( userService.currentUser == {} || userService.currentUser.title == undefined ){
             return 'Anonymous';
         } else {
-            return userService.currentUser.fullName;
+            return userService.currentUser.title;
         }
     }
 
@@ -44,7 +44,7 @@ app.factory('UserService', function(MySqlService){
     }
 
     userService.getUserById = function(userId) {
-        return userService.allUsers.find( user => user.id === userId );
+        return userService.allUsers.find( user => user.id == userId );
     }
     
     return userService;

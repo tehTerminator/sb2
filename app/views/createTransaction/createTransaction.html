@@ -1,42 +1,14 @@
 <div class="ui grid">
-    <div class="one column row">
-        <div class="column">
-            <div class="ui segment">
-                We Will Show Customer Name Here
-            </div>
-        </div>
-    </div>
     <div class="ui two column row">
         <div class="four wide column">
-            <div class="ui form segment">
-                <div class="field">
-                    <label for="product">Select Product</label>
-                    <div class="ui search">
-                        <input type="text" class="prompt" placeholder="Enter Product Name..." id="selectProductField">
-                        <div class="result"></div>
-                    </div>
-                </div>
-                <div class="two fields">
-                    <div class="field">
-                        <label for="quantity">Quantity</label>
-                        <div class="input">
-                            <input type="number" name="quantity" id="">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label for="rate">
-                            Rate
-                        </label>
-                        <div class="input"><input type="number" name="rate" id=""></div>
-                    </div>
-                </div>
-                <button class="ui green fluid button">
-                    Add
-                </button>
-            </div>
+            <transaction-form></transaction-form>
+            <product-history-table></product-history-table>
         </div>
         <div class="twelve wide column">
             <transaction-table></transaction-table>
+            <button class="ui right floated button" ng-click="saveInvoice()">
+                Save Invoice
+            </button>
         </div>
     </div>
 </div>

@@ -3,13 +3,9 @@ app.directive('transactionTable', function(){
         restrict : 'E',
         templateUrl : 'app/views/transactionTable/transactionTable.html',
         controller : 'TransactionTableController',
-        scope : {
-            showButtons : '=',
-            invoiceId : '@',
-        }
     };
 })
-.controller('TransactionTableController', function($scope, ProductService,  MySqlService){
+.controller('TransactionTableController', function($scope, MySqlService, ProductService){
     $scope.transactions = [];
     $scope.total = {
         tax : 0,
@@ -17,75 +13,61 @@ app.directive('transactionTable', function(){
         amountWithTax : 0
     };
 
-    $scope.retrieveFromServer = function(){
-        const request = {
-            andWhere : { invoiceId : $scope.invoiceId }
-        }
-        MySqlService.select('transactions', request)
-        .then(function(response){
-            if( response.status === 200 ){
-                if( response.data[0]['rowCount'] > 0 ){
-                    let res = response.data[0]['rows'];
-                    res.foreach(function(transaction){
-                       $scope.pushTransaction(transaction)
-                    });
-                } else {
-                    $scope.transactions = [];
-                }
-            } else {
-                $scope.transactions = [];
-            }
-        });
-    };
-
-    $scope.$on('RetrieveTransactions', function(e, arg){
-        $scope.init();
+    $scope.$on('Push Transaction', function (e, arg) {
+        $scope.pushTransaction(arg);
     });
 
-    $scope.selectTransaction = function(transaction){
-        $scope.$emit('TransactionSelected', {data: transaction});
-    };
+    $scope.$on('Retrieve Transactions', (e, arg) => {
+        $scope.retrieveFromServer(arg.id);
+    })
 
-    $scope.pushTransaction = function(transaction, taxIncluded) {
-        transaction.productName = ProductService.getProductById( transaction.productId );
-        let amountWithTax = transaction.quantity * transaction.rate;
-        let amountWithoutTax = 0;
+    $scope.retrieveFromServer = function(id) {
+        MySqlService
+            .select('transactions', {
+                andWhere: {invoiceId: id}
+            })
+            .then((res) => {
+                if (res.status === 200) {
+                    let data = res.data[0].rows;
+                    data.forEach(function (item) {
+                        $scope.pushTransaction(item);
+                    });
+                }
+            });
+    }
 
-        transaction.sgstAmount = ( amountWithTax * 100 ) / (100 + transaction.sgstRate);
-        transaction.cgstAmount = ( amountWithTax * 100 ) / (100 + transaction.cgstRate);
-        transaction.igstAmount = ( amountWithTax * 100 ) / (100 + transaction.igstRate);
-
-        transcation.totalTax = transaction.sgstAmount + transaction.cgstAmount + transaction.igstAmount;
-        amountWithoutTax = amountWithTax - transaction.totalTax;
-
-        $scope.total.tax += transaction.totalTax;
-        $scope.total.amountWithoutTax += amountWithoutTax;
-        $scope.total.amountWithTax += transaction.amountWithTax;
-
-        $scope.transactions.push(trasaction);
-    };
+    $scope.$on('Save Transactions', function (e, arg) {
+        let invoiceId = arg.data;
+        $scope.transactions.forEach(function (t) {
+            const req = {
+                'userData': {
+                    'invoiceId': invoiceId,
+                    'productId': t.productId,
+                    'quantity': t.quantity,
+                    'rate': t.rate,
+                    'sgstRate': t.sgstRate,
+                    'cgstRate': t.cgstRate,
+                    'igstRate': t.igstRate
+                }
+            };
+            MySqlService
+                .insert('transactions', req)
+                .then((res) => { console.log(res); })
+                .then(() => { $location.url('/print/' + invoiceId); });
+        })
+    })
 
     $scope.deleteTransaction = function(transaction){
         if (confirm("Do you wish to delete Transaction #" + transaction.id)) {
-            MySqlService.delete('transactions', {
-                andWhere : { id: transaction.id }
-            })
-            .then(function(response){
-                if( response.status === 200 ){
-                    if( response.data[0]['rowCount'] === 1){
-                        let index = $scope.transactions.indexOf(transaction);
-                        $scope.transactions.splice(index, 1);
-                    } else {
-                        console.log("Error Occured", response);
-                    }
-                }
-            });
+            $scope.$emit("Delete Transaction", { data: transaction });
+            let index = $scope.transactions.indexOf(transaction);
+            $scope.transactions.splice(index, 1);
+
+            $scope.total.amountWithoutTax = $scope.total.amountWithoutTax - transaction.amountWithTax + transaction.totalTax;
+            $scope.total.amountWithTax -= transaction.amountWithTax;
+            $scope.total.tax -= transaction.totalTax;
         }
     };
-
-    $scope.$on('PushTransaction', function(e, arg){
-        $scope.pushTransaction(arg.data);
-    });
 
     $scope.reset = function(){
         $scope.transactions = [];
@@ -94,5 +76,36 @@ app.directive('transactionTable', function(){
             amountWithoutTax : 0,
             amountWithTax : 0
         };
+    }
+
+    $scope.pushTransaction = function (transaction) {
+        let amountWithoutTax = 0;
+        let output = {
+            'transaction': {},
+        };
+
+        transaction.productName = ProductService.getProductById(transaction.productId)['title'];
+        transaction.amountWithTax = transaction.quantity * transaction.rate;
+        transaction.unit = ProductService.getProductById(transaction.productId)['unit'];
+        
+        transaction.sgstAmount = $scope.getTaxAmount(transaction.amountWithTax, transaction.sgstRate);
+        transaction.cgstAmount = $scope.getTaxAmount(transaction.amountWithTax, transaction.cgstRate);
+        transaction.igstAmount = $scope.getTaxAmount(transaction.amountWithTax, transaction.igstRate);
+        
+        transaction.totalTax = transaction.sgstAmount + transaction.cgstAmount + transaction.igstAmount;
+        amountWithoutTax = transaction.amountWithTax - transaction.totalTax;
+        
+        $scope.total.tax += transaction.totalTax;
+        $scope.total.amountWithoutTax += amountWithoutTax;
+        $scope.total.amountWithTax += transaction.amountWithTax;
+        $scope.transactions.push(transaction);
+    };
+
+    $scope.getTaxAmount = function (amountWithoutTax, taxRate) {
+        let y = Number(amountWithoutTax);
+        let r = Number(taxRate);
+        let x = 0;
+        x = (y * r) / (100 + r);
+        return Math.round(x);
     }
 });

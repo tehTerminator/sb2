@@ -3,16 +3,12 @@ app.directive('categoryForm', function() {
         restrict:'E', 
         templateUrl:'app/views/categoryForm/categoryForm.html', 
         controller:'CategoryFormController', 
-        scope: {
-            'formHeading':'@', 
-            'showIdField':'='
-        }
     }
 })
 
 .controller('CategoryFormController', function($scope, MySqlService) {
     $scope.category =  {
-        'name':'', 
+        'title':'', 
         'sgstRate':0, 
         'cgstRate':0, 
         'igstRate':0, 
@@ -20,7 +16,7 @@ app.directive('categoryForm', function() {
 
     $scope.save = function() {
         const categoryData =  {
-            'name':$scope.category.name, 
+            'title':$scope.category.title, 
             'sgstRate':$scope.category.sgstRate, 
             'cgstRate':$scope.category.cgstRate, 
             'igstRate':$scope.category.igstRate, 
@@ -33,7 +29,7 @@ app.directive('categoryForm', function() {
             })
             .then(function (response) {
                 $scope.category =  {
-                    'name':'', 
+                    'title':'', 
                     'sgstRate':0, 
                     'cgstRate':0, 
                     'igstRate':0, 
@@ -45,7 +41,7 @@ app.directive('categoryForm', function() {
             })
             .then(function (response) {
                 $scope.category =  {
-                    'name':'', 
+                    'title':'', 
                     'sgstRate':0, 
                     'cgstRate':0, 
                     'igstRate':0, 
@@ -53,4 +49,16 @@ app.directive('categoryForm', function() {
             }); 
         }
     }; 
+
+    $scope.setCategory = (category) => {
+        category.id = Number(category.id);
+        category.sgstRate = Number(category.sgstRate);
+        category.cgstRate = Number(category.cgstRate);
+        category.igstRate = Number(category.igstRate);
+        Object.assign($scope.category, category);
+    }
+
+    $scope.$on('Set Category', function (e, arg) {
+        $scope.setCategory(arg.data);
+    });
 }); 

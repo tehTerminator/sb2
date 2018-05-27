@@ -1,4 +1,4 @@
-<table class="ui mini celled compact center aligned table">
+<table class="ui compact center aligned table">
     <thead>
         <tr>
             <th rowspan="2">Product</th>
@@ -6,11 +6,6 @@
             <th rowspan="2">Rate</th>
             <th colspan="3">GST</th>
             <th rowspan="2">Amount</th>
-            <th rowspan="2" ng-if="showButtons">
-                <button ng-click="retrieveFromServer()" class="ui icon button">
-                    <i class="refresh icon"></i>
-                </button>
-            </th>
         </tr>
         <tr>
             <th>SGST</th>
@@ -20,25 +15,30 @@
     </thead>
     <tbody>
         <tr ng-repeat="transaction in transactions">
-            <td>{{ transaction.productName }}</td>
-            <td>{{ transaction.quantity }}</td>
-            <td>{{ transaction.rate }}</td>
-            <td>{{ transaction.sgstAmount }}</td>
-            <td>{{ transaction.cgstAmount }}</td>
-            <td>{{ transaction.igstAmount }}</td>
-            <td>{{ transaction.amountWithTax }}</td>
-            <td ng-if="showButtons">
-                <button ng-click="deleteTransaction(transaction)" class="ui icon red button">
-                    <i class="delete icon"></i>
-                </button>
+            <td>
+                <i class="delete icon" ng-click="deleteTransaction(transaction)"></i>
+                {{ transaction.productName }}
             </td>
+            <td>{{ transaction.quantity }} {{ transaction.unit }}</td>
+            <td>{{ transaction.rate }}</td>
+            <td>{{ transaction.sgstAmount|currency:"&#8377;" }}<span>@{{ transaction.sgstRate }}%</span></td>
+            <td>{{ transaction.cgstAmount|currency:"&#8377;" }}<span>@{{ transaction.cgstRate }}%</span></td>
+            <td>{{ transaction.igstAmount|currency:"&#8377;" }}<span>@{{ transaction.igstRate }}%</span></td>
+            <td>{{ transaction.amountWithTax|currency:"&#8377;" }}</td>
         </tr>
     </tbody>
     <tfoot>
-        <td colspan="2">Amount Without Tax</td>
-        <td>{{ total.amountWithoutTax }}</td>
-        <td colspan="2">Total Tax</td>
-        <td>{{ total.tax }}</td>
-        <td>{{ total.amountWithTax }}</td>
+        <tr>
+            <td class="right aligned" colspan="6">Amount Without Tax</td>
+            <td>{{ total.amountWithoutTax|currency:"&#8377;" }}</td>
+        </tr>
+        <tr>
+            <td class="right aligned" colspan="6">Total Tax</td>
+            <td>{{ total.tax|currency:"&#8377;" }}</td>
+        </tr>
+        <tr>
+            <td class="right aligned" colspan="6">Grand Total</td>
+            <td>{{ total.amountWithTax|currency:"&#8377;" }}</td>
+        </tr>
     </tfoot>
 </table>

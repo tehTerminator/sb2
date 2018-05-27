@@ -19,7 +19,6 @@
 
             if( ! is_null($params) ){
                 $columns = isset($params['columns']) ? $params['columns'] : NULL;
-                $columns = $this->encapsulate($columns, '`');
             }
 
             if (is_null($columns)) {
@@ -34,31 +33,35 @@
             $this->query = "SELECT {$cols} FROM $this->tableName"; 
             
             if (isset($params['join'])) {
-                $this->query .= $this->join($param['join']['type'], $param['join']['table'], $params['join']['condition']);
+                $this->query .= " {$params['join']}";
             }
 
             if (isset($params['andWhere']) || isset($params['orWhere'])) {
                 $this->query .= $this->where($params);
             }
 
-            if (isset($param['groupBy'])) {
-                $this->query .= $this->group($param['groupBy']);
+            if (isset($params['groupBy'])) {
+                $this->query .= $this->group($params['groupBy']);
             }
 
-            if (isset($param['orderBy'])) {
-                $this->query .= $this->group($param['orderBy']);
+            if (isset($params['orderBy'])) {
+                $this->query .= $this->group($params['orderBy']);
+            }
+
+            if( isset($params['limit'])) {
+                $this->query .= " LIMIT {$params['limit']}";
             }
         }
 
         public function insert($param){
-            $this->query = "INSERT INTO `{$this->tableName}` (";
+            $this->query = "INSERT INTO {$this->tableName} (";
             $columns = $this->isMultiDimensional($param['userData']) ? array_keys($param['userData'][0]) : array_keys($param['userData']);
-            $this->query .= implode(", ", $this->encapsulate($columns, "`")) . ") VALUES (";
+            $this->query .= implode(", ", $columns) . ") VALUES (";
             $this->query .= implode(", ", $this->prefix($columns, ":")) . ")";
         }
 
         public function update($param){
-            $this->query = "UPDATE `{$this->tableName}` SET ";
+            $this->query = "UPDATE {$this->tableName} SET ";
             $userData = array();
             foreach($param['userData'] as $key=>$value){
                 if( is_array($value) ){
@@ -72,7 +75,7 @@
         }
 
         public function delete($param){
-            $this->query = "DELETE FROM `{$this->tableName}`";
+            $this->query = "DELETE FROM {$this->tableName}";
             $this->query .= $this->where($param);
         }
 
@@ -171,8 +174,12 @@
             return " ORDER BY {$orderType}";
         }
         
-        private function join($joinType, $table, $condition){
-            return " {$joinType} {$table} ON {$condition}";
+        private function join($joinType, $table, $condition=NULL){
+            $result = " {$joinType} {$table}";
+            if( $condition != NULL ){
+                $result .= " {$condition}";
+            }
+            return $result;
         }
         
         private function group($by){
@@ -202,7 +209,7 @@
                 }else {
                     $val = " = '{$value}'"; 
                 }
-                array_push($conditions, "`{$key}` {$val}"); 
+                array_push($conditions, "{$key} {$val}"); 
             }
             return implode($conditional_operator, $conditions); 
         }

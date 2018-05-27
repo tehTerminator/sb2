@@ -1,0 +1,68 @@
+<main 
+    ng-init="getData()"
+    class="ui two column grid">
+    <div class="column">
+        <div class="ui orange header">
+            <div class="content">
+                {{ myCompany.name }}
+                <div class="sub header">
+                    {{ myCompany.address }}
+                </div>
+            </div>
+        </div>
+        <br>
+        GST Number {{ myCompany.tax_id }}
+        <br>
+        Contact {{ myCompany.contact }}
+    </div>
+    <div class="column right aligned">
+        <div class="ui orange header">Total - {{ total.amountWithTax | currency:"&#8377;" }}</div>
+        <p>
+            Invoice Date : {{ invoice.postedOn | dateToISO | date : 'dd - MMM - y'}}
+            <br>
+            Invoice Number  : {{ ("0000000" + invoice.id).slice(-7) }}
+        </p>
+    </div>
+
+    <div class="ui horizontal divider orange header">
+        {{ invoice.title }}
+    </div>
+
+    <div class="two column row">
+        <div class="column">
+            <div class="ui basic segment">
+                <div class="ui header">
+                    <div class="content">
+                        {{ contact.title }}
+                    </div>
+                </div>
+                <div class="content">
+                    <address>
+                        {{ contact.address }}
+                        <br>
+                        <i class="phone icon"></i>
+                        {{ contact.phone }}
+                    </address>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui right aligned basic segment">
+                <div class="content">
+                    GST / PAN Number {{ contact.taxId }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="one column row">
+        <div class="ui column">
+            <transaction-table></transaction-table>
+            <div class="ui segment">
+                <div class="right aligned content">
+                    Authorised Signature
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

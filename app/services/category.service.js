@@ -4,10 +4,10 @@ app
     categoryService['data'] = [];
 
     categoryService.retrieveCategories = function(){
-        MySqlService.select('categories')
+        return MySqlService.select('categories')
         .then(function(response){
             categoryService.data = response.data[0]['rows'];
-        })
+        });
     }
 
     categoryService.getCategories = function(){
@@ -20,7 +20,7 @@ app
 
     categoryService.getCategoriesByName = function(name){
         return categoryService.data.filter( 
-            category => category.name.toLowerCase().indexOf(name.toLowerCase()) >= 0 
+            category => category.title.toLowerCase().indexOf(name.toLowerCase()) >= 0 
         );
     }
 

@@ -1,40 +1,38 @@
 <div class="ui form segment">
-    <button class="ui top right attached label" ng-click="getData()">Refresh</button>
-        <h3 class="ui header">{{ formHeading }}</h3>
-    <div class="ui field" ng-show="showIdField">
+    <div class="ui field" ng-hide="true">
         <label for="productId">Product Id</label>
         <input type="number" ng-model="product.id" ng-readonly="true">
     </div>
     <div class="ui field">
         <label for="productName">Product Name</label>
-        <input type="text" name="productName" ng-model="product.name">
+        <input type="text" name="productName" ng-model="product.title">
     </div>
     <div class="ui field">
         <label for="productDecription">Product Description</label>
         <input type="text" name="productDescription" ng-model="product.description">
     </div>
-    <div class="ui field">
+    <div class="ui field" id="companyField">
         <label for="companyName">Company Name</label>
         <select 
             name="companyName" 
             ng-model="product.company" 
-            ng-options="company as company.name for company in companies track by company.id"
+            ng-options="company as company.title for company in companies track by company.id"
             class="ui fluid search selection dropdown">
         </select>
     </div>
-    <div class="ui field">
+    <div class="ui field" id="categoryField">
         <label for="category">Category</label>
         <select
-            ng-options="category as category.name for category in categories track by category.id" 
+            ng-options="category as category.title for category in categories track by category.id" 
             name="category" 
             ng-model="product.category" 
             class="ui search selection dropdown">
         </select>
     </div>
-    <div class="ui field">
+    <div class="ui field" id="unitField">
         <label for="unit">Unit</label>
         <select 
-            name="unit" 
+            name="unit"
             ng-model="product.unit" 
             ng-init="initDropdown()"
             class="ui fluid search selection dropdown">
@@ -46,5 +44,6 @@
         </select>
     </div>
 
-    <div class="ui green fluid button" ng-click="save()">Save</div>
+    <div class="ui green button" ng-click="save()">Save</div>
+    <div class="ui red button" ng-click="reset()">Reset</div>
 </div>

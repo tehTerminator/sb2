@@ -31,7 +31,7 @@
 
     $output = array();
     process_request($connection, $request, $output);
-    die( json_encode($output));
+    die( json_encode($output) );
 
     function process_request($connection, $request, &$output=NULL) {
         $output = $output == NULL ? array() : $output;

@@ -3,21 +3,24 @@ app.factory('ProductService', function(MySqlService, CategoryService, CompanySer
     productService['data'] = [];
 
     productService.retrieveProducts = function(){
-        MySqlService.select('products')
+        return MySqlService.select('products')
         .then(function(response){
             if( response.status === 200 ){
-                angular.forEach(response.data.data, function(product){
-                    product.categoryName = CategoryService.getCategoryById(product.categoryId);
-                    product.companyName = CompanyService.getCompanyById(product.companyId);
+                const output = response.data[0].rows;
+                output.forEach(product => {
+                    product.category = CategoryService.getCategoryById(product.categoryId)['title'];
+                    product.company = CompanyService.getCompanyById(product.companyId)['title'];
                     productService.data.push(product);
+                });
+                angular.forEach(response.data.data, function(product){
                 });
             } else {
                 productService.data = [];
             }
         });
-    }
+    };
 
-    productService.getProductList = function(){
+    productService.getProducts = function(){
         return productService.data;
     }
 
@@ -27,7 +30,7 @@ app.factory('ProductService', function(MySqlService, CategoryService, CompanySer
 
     productService.getProductsByName = function(name){
         return productService.data.filter( 
-            product => product.name.toLowerCase().indexOf(name.toLowerCase()) >= 0 
+            product => product.title.toLowerCase().indexOf(name.toLowerCase()) >= 0 
         );
     }
 
@@ -45,7 +48,7 @@ app.factory('ProductService', function(MySqlService, CategoryService, CompanySer
         categories.forEach(function(category){
             products.concat( productService.getProductsByCategoryId(category.id) );
         });
-        return product;
+        return products;
     }
 
     productService.getProductsByCompanyName = function(companyName){
@@ -55,6 +58,23 @@ app.factory('ProductService', function(MySqlService, CategoryService, CompanySer
             products.concat( productService.getProductByCompanyId(company.id) );
         });
         return products;
+    }
+
+    productService.getProductHistory = function( productId ){
+        const request = {
+            'columns' : [
+                'quantity', 
+                'rate', 
+                'invoices.type as invoiceType', 
+                'invoices.postedOn as postedOn'
+            ],
+            andWhere : {
+                'transactions.productId' : productId,
+            },
+            join : "join invoices",
+            limit : 5
+        };
+        return MySqlService.select('transactions', request);
     }
 
     return productService;

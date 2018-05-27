@@ -12,7 +12,9 @@ app.directive('step', function(){
     $scope.index = 1;
 
     $scope.setTab = function(i){
-        $scope.tabIndex = i;
+        if( $scope.tabIndex > i ){
+            $scope.tabIndex = i;
+        }
     }
 
     $scope.gain = function(){

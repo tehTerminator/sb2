@@ -4,7 +4,7 @@ app
     companyService['data'] = [];
 
     companyService.retrieveCompanies = function(){
-        MySqlService.select('companies')
+        return MySqlService.select('companies')
         .then(function(response){
             companyService.data = response.data[0]['rows'];
         })
@@ -20,7 +20,7 @@ app
 
     companyService.getCompaniesByName = function(name){
         return companyService.data.filter( 
-            company => company.name.toLowerCase().indexOf(name.toLowerCase()) >= 0
+            company => company.title.toLowerCase().indexOf(name.toLowerCase()) >= 0
         );
     }
     return companyService;

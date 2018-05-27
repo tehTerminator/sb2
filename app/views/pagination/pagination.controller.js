@@ -27,7 +27,6 @@ app
     }
 
     $scope.initialize = function(totalItems) {
-        console.log("Initialize", totalItems);
         $scope.totalItems = totalItems;
         $scope.totalPages = Math.ceil(totalItems / $scope.pageLength);
         $scope.pageArray = [];
@@ -71,10 +70,10 @@ app
     }
 
     $scope.setPage = function(i) {
-        if( i > 0 && i < $scope.totalPages - 1)
+        if (i > 0 && i < $scope.totalPages - 1)
             $scope.currentPage = i - 1;
         else
-            $scope.setPage(1);
+            $scope.currentPage = 0;
     }
 
     $scope.resetPage = function() {

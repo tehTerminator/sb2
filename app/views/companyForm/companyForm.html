@@ -1,18 +1,16 @@
 <div class="ui form segment">
-    <h3 class="ui header">{{ formHeading }}</h3>
-        <div class="field" ng-show="showIdField">
-            <label for="">Company Id</label>
-            <input type="number" ng-model="company.id" ng-readonly="true">
-        </div>
-        <div class="field">
-            <label for="name">Name</label>
-            <input type="text" ng-model="company.name">
-        </div>
-        <div class="field">
-            <label for="description">Description</label>
-            <textarea ng-model="company.description"></textarea>
-        </div>
-
-        <button class="ui fluid green button" ng-click="save()">Save</button>
+    <div class="field" ng-hide="true">
+        <label for="">Company Id</label>
+        <input type="number" ng-model="company.id" ng-readonly="true">
     </div>
+    <div class="field">
+        <label for="name">Name</label>
+        <input type="text" ng-model="company.title">
+    </div>
+    <div class="field">
+        <label for="description">Description</label>
+        <textarea ng-model="company.description"></textarea>
+    </div>
+
+    <button class="ui fluid green button" ng-click="save()">Save</button>
 </div>

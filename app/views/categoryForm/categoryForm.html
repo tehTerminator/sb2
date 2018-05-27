@@ -1,13 +1,12 @@
 <div class="ui form segment">
-    <h3 class="ui header">{{ formHeading }}</h3>
     <div class="content">
-        <div class="ui field" ng-show="showIdField">
+        <div class="ui field" ng-hide="true">
             <label for="categoryId">Category Id</label>
             <input type="number" ng-model="category.id" ng-readonly>
         </div>
         <div class="ui field">
             <label for="categoryName">Category Name</label>
-            <input type="text" ng-model="category.name">
+            <input type="text" ng-model="category.title">
         </div>
         <div class="ui field">
             <label for="sgstRate">SGST Rate</label>

@@ -1,0 +1,40 @@
+<div class="ui two column grid">
+        <div class="column">
+            <table class="ui mini compact celled center aligned table segment">
+                <thead>
+                    <tr>
+                        <th colspan="2">Last Sales</th>
+                    </tr>
+                    <tr>
+                        <th>Quantity</th>
+                        <th>Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="row in productHistory.sales">
+                        <td>{{ row.quantity }}</td>
+                        <td>{{ row.rate }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="column">
+            <table class="ui mini compact celled center aligned table segment">
+                <thead>
+                    <tr>
+                        <th colspan="2">Last Purchases</th>
+                    </tr>
+                    <tr>
+                        <th>Quantity</th>
+                        <th>Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="row in productHistory.purchases">
+                        <td>{{ row.quantity }}</td>
+                        <td>{{ row.rate }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>

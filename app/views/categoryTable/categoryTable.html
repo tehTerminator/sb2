@@ -1,0 +1,23 @@
+<table 
+    class="ui celled mini compact center aligned table">
+    <thead>
+        <th class="four wide">Title</th>
+        <th class="six wide">SGST Rate</th>
+        <th class="two wide">CGST Rate</th>
+        <th class="three wide">IGST Rate</th>
+        <th class="one wide">Action</th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="category in categories|filter:searchText|pagination:pageLength:pageIndex">
+            <td>{{ category.title }}</td>
+            <td>{{ category.sgstRate }}</td>
+            <td>{{ category.cgstRate }}</td>
+            <td>{{ category.igstRate }}</td>
+            <td>
+                <button ng-click="select(category)" class="ui mini green fluid icon button">
+                    <i class="icon checkmark"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

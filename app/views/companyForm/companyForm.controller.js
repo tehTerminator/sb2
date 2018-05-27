@@ -4,16 +4,12 @@ app
         restrict    : 'E',
         templateUrl : 'app/views/companyForm/companyForm.html',
         controller  : 'CompanyFormController',
-        scope       : { 
-            'formHeading'   : '@',
-            'showIdField'   : '='
-        }
     };
 })
 .controller('CompanyFormController', function($scope, MySqlService){
     $scope.company = {
         'id' : 0,
-        'name' : '',
+        'title' : '',
         'description' : '',
     };
 
@@ -21,7 +17,7 @@ app
         if ($scope.showIdField === true) {
             MySqlService.update('companies', {
                 userData : {
-                    'name' : $scope.company.name,
+                    'title' : $scope.company.name,
                     'description' : $scope.company.description,
                 },
                 andWhere : {
@@ -31,24 +27,33 @@ app
             .then(function(response) {
                 $scope.company = {
                     'id' : 0,
-                    'name' : '',
+                    'title' : '',
                     'description' : '',
                 };
             });
         } else if ($scope.showIdField === false) {
             MySqlService.insert('companies', {
                 userData : {
-                    'name' : $scope.company.name,
+                    'title' : $scope.company.name,
                     'description' : $scope.company.description,
                 }
             })
             .then(function(response) {
                 $scope.company = {
                     'id' : 0,
-                    'name' : '',
+                    'title' : '',
                     'description' : '',
                 };
             })
         }
     };
+
+    $scope.setCompany = (company) => {
+        company.id = Number(company.id);
+        Object.assign($scope.company, company);
+    }
+
+    $scope.$on('Set Company', function(e, arg){
+        $scope.setCompany(arg.data);
+    });
 });

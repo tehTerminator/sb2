@@ -9,7 +9,7 @@
     </thead>
     <tbody>
         <tr ng-repeat="contact in contacts|filter:searchText|pagination:pageLength:pageIndex">
-            <td>{{ contact.name }}</td>
+            <td>{{ contact.title }}</td>
             <td>{{ contact.address }}</td>
             <td>{{ contact.phone }}</td>
             <td>{{ contact.taxId }}</td>

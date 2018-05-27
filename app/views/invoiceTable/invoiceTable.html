@@ -1,0 +1,31 @@
+<table class="ui celled mini compact center aligned table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Type</th>
+            <th>To / By</th>
+            <th>Posted By</th>
+            <th>Posted On</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="invoice in invoices|filter:searchText|pagination:pageLength:pageIndex">
+            <td>{{ invoice.id }}</td>
+            <td>{{ invoice.typeName }}</td>
+            <td>{{ invoice.contact.title }}</td>
+            <td>{{ invoice.postedByName }}</td>
+            <td>{{ invoice.postedOn|dateToISO|date:'dd MMM yyyy' }}</td>
+            <td>
+                <div class="ui two fluid buttons">
+                    <a class="ui blue button" ng-href="print/{{invoice.id}}">
+                        Select
+                    </a>
+                    <button class="ui red button" ng-click="delete(invoice)">
+                        Delete
+                    </button>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -8,7 +8,7 @@ app.directive('appRoot', function(){
     }
 })
 
-.controller('MainController', function($scope, $location, UserService){
+.controller('MainController', function($scope, $location, UserService, ProductService, CategoryService, CompanyService){
     $scope.title = "Simple Billing App";
 
     $scope.authUser = function(){
@@ -24,6 +24,16 @@ app.directive('appRoot', function(){
             $location.url('/login');
         }
     });
+
+    $scope.init = () => {
+        UserService.getAllUsers();
+        CompanyService.retrieveCompanies()
+            .then(CategoryService.retrieveCategories()
+                .then(ProductService.retrieveProducts())
+            );
+    };
+
+    $scope.init();
 })
 
 .config(function($routeProvider, $locationProvider){
@@ -33,16 +43,32 @@ app.directive('appRoot', function(){
         templateUrl : 'app/pages/home/home.html',
         controller  : 'HomeController'
     })
-    .when('/store', {
-        templateUrl : 'app/pages/store/store.html',
-        controller  : 'StoreController'
+    .when('/report', {
+        templateUrl : 'app/pages/report/report.html',
     })
-    .when('/invoice', {
-        templateUrl : 'app/pages/invoice/invoice.html'
+    .when('/invoice/:type', {
+        templateUrl : 'app/pages/invoice/invoice.html',
+        controller: 'InvoiceController'
     })
+    .when('/print/:id', {
+        templateUrl : 'app/pages/printInvoice/printInvoice.html',
+        controller  : 'PrintInvoiceController'
+    })    
     .when('/contacts', {
         templateUrl : 'app/pages/contacts/contacts.html',
         controller  : 'ContactsPageController'
+    })
+    .when('/categories', {
+        templateUrl : 'app/pages/categories/categories.html',
+        controller  : 'CategoryPageController'
+    })
+    .when('/companies', {
+        templateUrl : 'app/pages/companies/companies.html',
+        controller  : 'CompanyPageController'
+    })
+    .when('/products', {
+        templateUrl : 'app/pages/products/products.html',
+        controller  : 'ProductsPageController'
     })
     .when('/login', {
         templateUrl : 'app/pages/login/login.html',
@@ -53,5 +79,17 @@ app.directive('appRoot', function(){
     });
 
     $locationProvider.html5Mode(true);
-});
+    })
+
+    .filter('dateToISO', function() {
+        return function (input) {
+            var input;
+            try {
+                input = new Date(input).toISOString();
+            } catch (e) {
+                input = new Date().toISOString();
+            }
+            return input;
+        };
+    });
 

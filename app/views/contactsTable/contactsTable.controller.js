@@ -16,7 +16,6 @@ app.directive('contactsTable', function(){
     $scope.refreshData = function(){
         MySqlService.select('contacts')
         .then(function(response){
-            console.log(response);
             if( response.status === 200 ){
                 let res = response.data[0];
                 $scope.contacts = res['rows'];
