@@ -45,7 +45,7 @@ app
                     $scope.myCompany.address = data.find(x => x.title == "address")['val'];
                     $scope.myCompany.contact = data.find(x => x.title == "contact")['val'];
                     $scope.myCompany.tax_id = data.find(x => x.title == "tax_id")['val'];
-            })
+                });
         }
 
         $scope.getData = () => { $scope.getInvoice(); }

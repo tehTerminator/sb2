@@ -7,7 +7,8 @@ app.directive('categoryForm', function() {
 })
 
 .controller('CategoryFormController', function($scope, MySqlService) {
-    $scope.category =  {
+    $scope.category = {
+        'id': 0,
         'title':'', 
         'sgstRate':0, 
         'cgstRate':0, 
@@ -15,39 +16,27 @@ app.directive('categoryForm', function() {
     }; 
 
     $scope.save = function() {
-        const categoryData =  {
-            'title':$scope.category.title, 
-            'sgstRate':$scope.category.sgstRate, 
-            'cgstRate':$scope.category.cgstRate, 
-            'igstRate':$scope.category.igstRate, 
+        const req = {
+            userData: {
+                'title':$scope.category.title, 
+                'sgstRate':$scope.category.sgstRate, 
+                'cgstRate':$scope.category.cgstRate, 
+                'igstRate':$scope.category.igstRate, 
+            }
         }; 
 
-        if (typeof showIdField != 'undefined' && showIdField == true) {
-            MySqlService.update('categories',  {
-                userData:categoryData, 
-                andWhere: {'id':$scope.category.id }
-            })
-            .then(function (response) {
-                $scope.category =  {
-                    'title':'', 
-                    'sgstRate':0, 
-                    'cgstRate':0, 
-                    'igstRate':0, 
-                }; 
-            })
-        }else {
-            MySqlService.insert('categories',  {
-                userData:categoryData
-            })
-            .then(function (response) {
-                $scope.category =  {
-                    'title':'', 
-                    'sgstRate':0, 
-                    'cgstRate':0, 
-                    'igstRate':0, 
-                }; 
-            }); 
+        let shouldInsert = Number($scope.category.id) === 0;
+        let method = "update";
+
+        if (shouldInsert) {
+            method = "insert";
+        } else {
+            req.andWhere = { 'id': $scope.category.id };
         }
+        
+        MySqlService
+            [method]('categories', req)
+            .then( $scope.reset() );
     }; 
 
     $scope.setCategory = (category) => {
@@ -61,4 +50,14 @@ app.directive('categoryForm', function() {
     $scope.$on('Set Category', function (e, arg) {
         $scope.setCategory(arg.data);
     });
+
+    $scope.reset = () => {
+        $scope.category = {
+            'id': 0,
+            'title':'', 
+            'sgstRate':0, 
+            'cgstRate':0, 
+            'igstRate':0, 
+        }; 
+    }
 }); 

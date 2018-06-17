@@ -13,7 +13,8 @@ app.directive('productsTable', function(){
 .controller('ProductTableController', function($scope, MySqlService, CategoryService, CompanyService) {
     $scope.products = [];
    
-    $scope.refreshData = function(){
+    $scope.refreshData = function () {
+        $scope.products = [];
         MySqlService.select('products')
         .then(function(response){
             if( response.status === 200 ){

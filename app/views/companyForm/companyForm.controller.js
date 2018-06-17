@@ -13,39 +13,26 @@ app
         'description' : '',
     };
 
-    $scope.save = function() {
-        if ($scope.showIdField === true) {
-            MySqlService.update('companies', {
-                userData : {
-                    'title' : $scope.company.name,
-                    'description' : $scope.company.description,
-                },
-                andWhere : {
-                    'id' : $scope.company.id
-                }
-            })
-            .then(function(response) {
-                $scope.company = {
-                    'id' : 0,
-                    'title' : '',
-                    'description' : '',
-                };
-            });
-        } else if ($scope.showIdField === false) {
-            MySqlService.insert('companies', {
-                userData : {
-                    'title' : $scope.company.name,
-                    'description' : $scope.company.description,
-                }
-            })
-            .then(function(response) {
-                $scope.company = {
-                    'id' : 0,
-                    'title' : '',
-                    'description' : '',
-                };
-            })
+    $scope.save = function () {
+        const req = {
+            'userData': {
+                'title': $scope.company.name,
+                'description': $scope.company.description
+            }
+        };
+
+        let shouldInsert = Number($scope.company.id) === 0;
+        let method = "update";
+
+        if (shouldInsert) {
+            method = "insert";
+        } else {
+            req.andWhere = { id: $scope.company.id };
         }
+
+        MySqlService
+                [method]('companies', req)
+                .then($scope.reset());
     };
 
     $scope.setCompany = (company) => {
@@ -56,4 +43,12 @@ app
     $scope.$on('Set Company', function(e, arg){
         $scope.setCompany(arg.data);
     });
+
+    $scope.reset = () => {
+        $scope.company = {
+            'id' : 0,
+            'title' : '',
+            'description' : '',
+        };
+    }
 });

@@ -1,25 +1,24 @@
 <div class="ui form segment">
-    <div class="content">
-        <div class="ui field" ng-hide="true">
-            <label for="categoryId">Category Id</label>
-            <input type="number" ng-model="category.id" ng-readonly>
-        </div>
-        <div class="ui field">
-            <label for="categoryName">Category Name</label>
-            <input type="text" ng-model="category.title">
-        </div>
-        <div class="ui field">
-            <label for="sgstRate">SGST Rate</label>
-            <input min="0" max="100" step="0.01" type="number" ng-model="category.sgstRate">
-        </div>
-        <div class="ui field">
-            <label for="cgstRate">CGST Rate</label>
-            <input min="0" max="100" step="0.01" type="number" ng-model="category.cgstRate">
-        </div>
-        <div class="ui field">
-            <label for="igstRate">IGST Rate</label>
-            <input min="0" max="100" step="0.01" type="number" ng-model="category.igstRate">
-        </div>
+    <div class="ui field" ng-hide="true">
+        <label for="categoryId">Category Id</label>
+        <input type="number" ng-model="category.id" ng-readonly>
     </div>
-    <button class="ui green fluid button" ng-click="save()">Save</button>
+    <div class="ui field">
+        <label for="categoryName">Category Name</label>
+        <input type="text" ng-model="category.title">
+    </div>
+    <div class="ui field">
+        <label for="sgstRate">SGST Rate</label>
+        <input min="0" max="100" step="0.01" type="number" ng-model="category.sgstRate">
+    </div>
+    <div class="ui field">
+        <label for="cgstRate">CGST Rate</label>
+        <input min="0" max="100" step="0.01" type="number" ng-model="category.cgstRate">
+    </div>
+    <div class="ui field">
+        <label for="igstRate">IGST Rate</label>
+        <input min="0" max="100" step="0.01" type="number" ng-model="category.igstRate">
+    </div>
+    <div class="ui green button" ng-click="save()">Save</div>
+    <div class="ui red button" ng-click="reset()">Reset</div>
 </div>

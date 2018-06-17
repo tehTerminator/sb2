@@ -1,4 +1,4 @@
-app.controller('LoginPageController', function($scope, $location, UserService) {
+app.controller('LoginPageController', function($scope, $location, UserService, ProductService, CategoryService, CompanyService) {
     $scope.user = {
         username: "",
         password: "",
@@ -26,11 +26,24 @@ app.controller('LoginPageController', function($scope, $location, UserService) {
         });
     };
 
-    $scope.reset = function(){
+    $scope.reset = function () {
         $scope.user = {
             username: "",
             password: "",
             authLevel: -1
         };
-    }
+    };
+
+    $scope.init = () => {
+        UserService.getAllUsers();
+        CompanyService.retrieveCompanies()
+            .then(() => {
+                CategoryService.retrieveCategories()
+                    .then(() => {
+                        ProductService.retrieveProducts();
+                    })
+            });
+    };
+
+    $scope.init();
 });

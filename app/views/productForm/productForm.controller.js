@@ -17,23 +17,12 @@ app.directive('productForm', function(){
     };
 
     $scope.categories = CategoryService.getCategories();
-    $scope.companies = CompanyService.getCompanies(); 
-
-    $scope.reset = () => {
-        $scope.product = {
-            'id': 0,
-            'title' : '',
-            'description' : '',
-            'categoryId' : 0,
-            'companyId' : '',
-            'unit' : ''
-        };
-    }
+    $scope.companies = CompanyService.getCompanies();
 
     $scope.save = function(){
         const req = {
             userData: {
-                'title': $scope.product.name,
+                'title': $scope.product.title,
                 'description': $scope.product.description,
                 'categoryId': $scope.product.category.id,
                 'companyId': $scope.product.company.id,
@@ -42,34 +31,20 @@ app.directive('productForm', function(){
         };
 
         let shouldInsert = Number($scope.product.id) === 0;
+        let method = "update";
 
         if (shouldInsert) {
-            MySqlService
-                .insert('products', req)
-                .then(function(response){
-                    $scope.product = {
-                        'title' : '',
-                        'description' : '',
-                        'categoryId' : 0,
-                        'companyId' : '',
-                        'unit' : ''
-                    };
-                });
+            method = "insert";
         } else {
-            req.userData.id = $scope.product.id;
             req.andWhere = { 'id': $scope.product.id };
-            MySqlService
-                .update('products', req)
-                .then(function (response) {
-                    $scope.product = {
-                        'title': '',
-                        'description': '',
-                        'categoryId': 0,
-                        'companyId': '',
-                        'unit': ''
-                    };
-                });
         }
+        
+        MySqlService
+            [method]('products', req)
+            .then(function (res) {
+                console.log(res);
+                $scope.reset();
+            });
     };
     
     $scope.setProduct = function(product){
@@ -88,7 +63,17 @@ app.directive('productForm', function(){
         $scope.setProduct(arg.data);
     });
 
-    $scope.initDropdown = function() {
+    $scope.initDropdown = () => {
         jQuery(".ui.dropdown").dropdown();
+    };
+
+    $scope.reset = () => {
+        $scope.product = {
+            'title': '',
+            'description': '',
+            'categoryId': 0,
+            'companyId': '',
+            'unit': ''
+        };
     }
 });

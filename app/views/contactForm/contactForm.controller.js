@@ -18,27 +18,26 @@ app.directive('contactForm', function(){
         $scope.contact.id = Number($scope.contact.id);
         let shouldInsert = Number($scope.contact.id) === 0;
         const req = {userData : {}};
+        let method = "update";
+        
         Object.assign(req.userData, $scope.contact);
         delete( req.userData.id ); //Remove Id Field from Query
-        if( shouldInsert ){
-            //Create New Contact
-            MySqlService.insert('contacts', req)
-            .then(function(res){
-                console.log(res);
-                $scope.reset();
-            });
+
+        if (shouldInsert) {
+            method = "insert";
         } else {
-            //Update Contact
-            req['andWhere'] = {id: $scope.contact.id};
-            MySqlService.update('contacts', req)
-            .then(function(res){
+            req.andWhere = { 'id': $scope.contact.id };
+        }
+        
+        MySqlService
+            [method]('contacts', req)
+            .then(function (res) {
                 console.log(res);
                 $scope.reset();
             });
-        }
     };
 
-    $scope.reset = function(){
+    $scope.reset = () => {
         $scope.contact = {
             'id': 0,
             'name': '',

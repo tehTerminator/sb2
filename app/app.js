@@ -8,7 +8,7 @@ app.directive('appRoot', function(){
     }
 })
 
-.controller('MainController', function($scope, $location, UserService, ProductService, CategoryService, CompanyService){
+.controller('MainController', function($scope, $location, UserService){
     $scope.title = "Simple Billing App";
 
     $scope.authUser = function(){
@@ -24,16 +24,6 @@ app.directive('appRoot', function(){
             $location.url('/login');
         }
     });
-
-    $scope.init = () => {
-        UserService.getAllUsers();
-        CompanyService.retrieveCompanies()
-            .then(CategoryService.retrieveCategories()
-                .then(ProductService.retrieveProducts())
-            );
-    };
-
-    $scope.init();
 })
 
 .config(function($routeProvider, $locationProvider){
