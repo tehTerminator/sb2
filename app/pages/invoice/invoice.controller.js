@@ -10,8 +10,6 @@ app.controller('InvoiceController', function($scope, $routeParams, UserService, 
         } else {
             $scope.type = 1;
         }
-
-        console.log("$scope.type", $scope.type);
     }
 
     $scope.title="Invoice Page";
@@ -35,7 +33,6 @@ app.controller('InvoiceController', function($scope, $routeParams, UserService, 
         MySqlService
             .insert('invoices', req)
             .then((response) => {
-                console.log("Saved Invoice", response);
                 let invoiceId = response.data[0].lastInsertId;
                 $scope.$broadcast('Save Transactions', { data: invoiceId });
             });
